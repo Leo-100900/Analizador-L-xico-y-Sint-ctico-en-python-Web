@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Analizador Léxico</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Analizador Léxico y Sintáctico</h1>
+        <form method="POST">
+            <textarea name="code" rows="10" cols="50" placeholder="Escribe tu código aquí..."></textarea>
+            <button type="submit">Analizar</button>
+        </form>
+        {% if tokens %}
+            <h2>Tokens Encontrados:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Número de Línea</th>
+                        <th>Lexema</th>
+                        <th>Token</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line_number, value, kind in tokens %}
+                        <tr>
+                            <td>{{ line_number }}</td>
+                            <td>{{ value }}</td>
+                            <td>{{ kind }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        {% if lexical_errors %}
+            <h2>Errores Léxicos:</h2>
+            <ul>
+                {% for line_number, error in lexical_errors %}
+                    <li>Línea {{ line_number }}: {{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if syntax_errors %}
+            <h2>Errores Sintácticos:</h2>
+            <ul>
+                {% for line_number, error in syntax_errors %}
+                    <li>Línea {{ line_number }}: {{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
